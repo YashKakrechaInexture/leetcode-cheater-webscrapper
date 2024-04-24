@@ -15,6 +15,7 @@ public class Submission {
 
     private String submissionTime;
 
+    @Column(length = 100000)
     private String code;
 
     private String codeHash;
