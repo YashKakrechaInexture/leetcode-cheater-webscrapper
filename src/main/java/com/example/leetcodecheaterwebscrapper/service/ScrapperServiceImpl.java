@@ -51,7 +51,7 @@ public class ScrapperServiceImpl implements ScrapperService {
                 int currPage = page;
                 executorService.submit(() -> {
                     try {
-                        scrapPage(leetcodeUrl + "/" + currPage);
+                        scrapPage(leetcodeUrl, currPage);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -69,9 +69,9 @@ public class ScrapperServiceImpl implements ScrapperService {
         }
     }
 
-    private void scrapPage(String url) throws InterruptedException {
+    private void scrapPage(String url, int page) throws InterruptedException {
         WebDriver driver = webScrapperService.startBrowser();
-        driver.get(url);
+        driver.get(url + "/" + page);
         TimeUnit.SECONDS.sleep(2);
         WebElement table =  driver.findElement(By.tagName("table"));
         WebElement tbody = table.findElement(By.tagName("tbody"));
@@ -88,12 +88,13 @@ public class ScrapperServiceImpl implements ScrapperService {
                 int score = Integer.parseInt(tds.get(2).getText());
                 String finishTime = tds.get(3).getText();
 
-                Submission submission1 = getSubmission(getCodeFromWebElement(tds.get(4), driver));
-                Submission submission2 = getSubmission(getCodeFromWebElement(tds.get(5), driver));
-                Submission submission3 = getSubmission(getCodeFromWebElement(tds.get(6), driver));
-                Submission submission4 = getSubmission(getCodeFromWebElement(tds.get(7), driver));
+                Submission submission1 = getSubmission(getCodeFromWebElement(tds.get(4), driver), "Q1");
+                Submission submission2 = getSubmission(getCodeFromWebElement(tds.get(5), driver), "Q2");
+                Submission submission3 = getSubmission(getCodeFromWebElement(tds.get(6), driver), "Q3");
+                Submission submission4 = getSubmission(getCodeFromWebElement(tds.get(7), driver), "Q4");
 
                 UserSubmission userSubmission = new UserSubmission();
+                userSubmission.setPage(page);
                 userSubmission.setUserRank(rank);
                 userSubmission.setUsername(username);
                 userSubmission.setScore(score);
@@ -138,10 +139,11 @@ public class ScrapperServiceImpl implements ScrapperService {
         return code;
     }
 
-    private Submission getSubmission(String code) {
+    private Submission getSubmission(String code, String questionNumber) {
         Submission submission = new Submission();
         submission.setCode(code);
         submission.setCodeHash(hashString(code));
+        submission.setQuestionNumber(questionNumber);
         return submission;
     }
 

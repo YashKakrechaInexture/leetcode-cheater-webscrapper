@@ -15,7 +15,7 @@
     <description>leetcode-cheater-webscrapper</description>
     <properties>
         <java.version>17</java.version>
-        <selenium.version>4.19.1</selenium.version>
+        <selenium.version>4.20.0</selenium.version>
     </properties>
     <dependencies>
         <dependency>

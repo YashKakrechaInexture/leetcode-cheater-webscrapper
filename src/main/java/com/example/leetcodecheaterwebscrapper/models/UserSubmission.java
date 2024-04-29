@@ -11,6 +11,8 @@ public class UserSubmission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private int page;
+
     private int userRank;
 
     private String username;

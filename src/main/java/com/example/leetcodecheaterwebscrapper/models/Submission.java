@@ -15,6 +15,8 @@ public class Submission {
 
     private String submissionTime;
 
+    private String questionNumber;
+
     @Column(length = 100000)
     private String code;
 
