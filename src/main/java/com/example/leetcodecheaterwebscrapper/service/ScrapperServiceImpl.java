@@ -44,8 +44,8 @@ public class ScrapperServiceImpl implements ScrapperService {
     }
 
     private void scrapAllPage(String leetcodeUrl, int startPage, int endPage) throws InterruptedException {
-        int numberOfThreads = endPage-startPage+1;
-        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+        int numberOfAvailableThreads = Runtime.getRuntime().availableProcessors();
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfAvailableThreads);
         try {
             for (int page = startPage; page <= endPage; page++) {
                 int currPage = page;
